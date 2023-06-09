@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Opciones dependientes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+
+<body>
+    <br />
+    <br />
+    <form name="opciones-dependientes" method="POST">
+        <label for="grupo_nube">Seleccione una Opción:</label>
+        <select id="select_grupo_nube" name="select_grupo_nube" required>
+            <option value="" selected disabled>Seleccione una opción</option>
+            {% for info_grupo_nube in grupo_nube %}
+            <option value="{{ info_grupo_nube[0] }}" name="opcion-dependientes">{{ info_grupo_nube[0] }}</option>
+            {% endfor %}
+        </select>
+        <input type="hidden" id="grupo_nube_input" name="grupo_nube_input" value="" />
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#select_grupo_nube').change(function () {
+                var opcionSeleccionada = $(this).val();
+                console.log(opcionSeleccionada);
+
+                // Actualiza el valor de la variable grupo_nube_str
+                grupo_nube_str = opcionSeleccionada;
+
+                // Envía el valor seleccionado al servidor
+                $.ajax({
+                    url: "/manejar_seleccion_grupo_nube",
+                    type: "POST",
+                    data: { opcionSeleccionada: opcionSeleccionada },
+                    success: function () {
+                        console.log("Valor enviado al servidor con éxito");
+                    },
+                    error: function () {
+                        console.log("Error al enviar el valor al servidor");
+                    }
+                });
+            });
+        });
+
+    </script>
+</body>
+
+</html>

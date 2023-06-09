@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>REPORTE ANS - TIC </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+
+<body>
+    <form method="POST" action="{{ url_for('powerbi') }}" enctype="multipart/form-data">
+        <iframe title="ANS_2" width="1280" height="920"
+            src="https://app.powerbi.com/reportEmbed?reportId=1cc84184-3da4-42d5-bd91-4839f0e602f5&autoAuth=true&embeddedDemo=true"
+            frameborder="0" allowFullScreen="true"></iframe>
+    </form>
+</body>
+
+</html>

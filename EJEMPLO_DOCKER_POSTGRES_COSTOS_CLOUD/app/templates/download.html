@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Descarga de archivo</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style_download.css') }}">
+</head>
+<body>
+	<div class="container">
+		<h1>Descarga de archivo SQL</h1>
+		{% if message %}
+			<div class="alert alert-success">{{ message }}</div>
+		{% endif %}
+		<a href="{{ url_for('download_file') }}" class="btn btn-primary">Descargar archivo</a>
+	</div>
+</body>
+</html>

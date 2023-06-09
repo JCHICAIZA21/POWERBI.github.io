@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>COSTOS CLOUD</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+
+<body>
+  <h1>Generador de SQL Costos Cloud</h1>
+
+  <h1>Cargar archivo</h1>
+  <form name="cargar-archivo">
+    <label for="proveedor">Seleccione un proveedor cloud:</label>
+    <select id="proveedor" name="proveedor">
+      <option value="" selected disabled>Seleccione una opción</option>
+      {% for proveedores in proveedor %}
+      <option value="{{ proveedores[0] }}">{{ proveedores[0] }}</option>
+      {% endfor %}
+    </select>
+    <div id="opciones_dependientes"></div>
+  </form>
+  <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+    <input type="file" name="file" multiple accept=".xlsx">
+    <input type="submit" value="Cargar">
+  </form>
+  <script type="text/javascript">
+    document.getElementById("proveedor").addEventListener("change", function () {
+      var proveedor_seleccionado = this.value;
+      fetch("/opciones_dependientes/" + proveedor_seleccionado).then(response => {
+        return response.text();
+      }).then(data => {
+        document.getElementById("opciones_dependientes").innerHTML = data;
+      });
+    });
+  </script>
+</body>
+
+</html>

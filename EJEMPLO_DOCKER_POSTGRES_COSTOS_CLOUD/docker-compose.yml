@@ -1,0 +1,68 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+    networks:
+      netServ:
+        aliases:
+          - postgres_host
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      netServ:
+        aliases:
+          - pgadmin_host    
+
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    volumes:
+      - .:/code
+      - C:/Users/juan.chicaiza/EJEMPLO_DOCKER_POSTGRES_COSTOS_CLOUD:/data
+    environment:
+      FLASK_ENV: development
+      FLASK_APP: app.py 
+      DB_HOST: postgres
+      DB_PORT: "5432"
+      DB_NAME: postgres
+      DB_USER: postgres
+      DB_PASSWORD: password 
+    networks:
+      netServ:
+        aliases:
+          - web
+
+volumes:
+  db_data: {}
+
+networks:
+  netServ:
+    name: netConfg_BD
+    driver: bridge
+    ipam:
+      driver: default  
